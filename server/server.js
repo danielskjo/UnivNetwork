@@ -1,20 +1,22 @@
-const cors = require("cors");
-const dotenv = require("dotenv");
-const express = require("express");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const multer = require("multer");
-const path = require("path");
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import helmet from "helmet";
+import morgan from "morgan";
+import multer from "multer";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const connectDB = require("./config/db.js");
+import connectDB from "./config/db.js";
 
 dotenv.config();
 
 const app = express();
 
 connectDB();
-
-app.use("/images", express.static(path.join(__dirname, "public/images")));
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+app.use("/images", express.static(path.join(__dirname, "/public/images")));
 
 app.use(cors({ origin: "*" }));
 app.use(express.json({ extended: false }));
@@ -31,7 +33,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
 app.post("/api/upload", upload.single("file"), (req, res) => {
   try {
     return res.status(200).json("File uploaded");
