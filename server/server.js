@@ -9,13 +9,18 @@ import { fileURLToPath } from "url";
 
 import connectDB from "./config/db.js";
 
+// import authRoutes from './routes/auth.routes.js'
+// import conversationRoutes from "./routes/conversation.routes";
+// import messageRoutes from './routes/message.routes.js'
+// import userRoutes from './routes/user.routes.js'
+
 dotenv.config();
 
 const app = express();
 
 connectDB();
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 app.use("/images", express.static(path.join(__dirname, "/public/images")));
 
 app.use(cors({ origin: "*" }));
@@ -27,9 +32,9 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/images");
   },
-//   filename: (req, file, cb) => {
-//     cb(null, req.body.name);
-//   },
+  //   filename: (req, file, cb) => {
+  //     cb(null, req.body.name);
+  //   },
 });
 
 const upload = multer({ storage: storage });
@@ -42,6 +47,11 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 });
 
 app.get("/", (_, res) => res.send("API Running"));
+
+// app.use("/api/auth", authRoutes);
+// app.use("/api/conversations", conversationRoutes);
+// app.use("/api/messages", messageRoutes);
+// app.use("/api/users", userRoutes);
 
 const PORT = process.env.PORT || 5000;
 
