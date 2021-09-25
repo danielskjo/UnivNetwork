@@ -10,7 +10,7 @@ import { fileURLToPath } from "url";
 import connectDB from "./config/db.js";
 
 import conversationRoutes from "./routes/conversation.routes.js";
-// import messageRoutes from './routes/message.routes.js'
+import messageRoutes from './routes/message.routes.js'
 import userRoutes from './routes/user.routes.js'
 
 dotenv.config();
@@ -49,7 +49,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 app.get("/", (_, res) => res.send("API Running"));
 
 app.use("/api/conversations", conversationRoutes);
-// app.use("/api/messages", messageRoutes);
+app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
 
 const PORT = process.env.PORT || 5000;
